@@ -1,0 +1,75 @@
+@JpegDeterioration
+--[[
+    JpegDeterioration
+    劣化させるだけです。劣化させつつDQTを壊したいときなどにどうぞ。
+]]
+--track0:品質,0,100,95,1
+local src,w,h=obj.getpixeldata()
+require("JpgGlitch").deterioration(src,w,h,obj.track0)
+obj.putpixeldata(src)
+
+@DQTGlitch
+--[[
+    DQTGlitch
+    量子化テーブル定義セグメント(DQT)のバイナリデータを乱数に書き換えることでグリッチを得ます。
+    書き換えたバイト位置によって強弱がかなり変化します。
+    低い品質だと値が適当になるセグメントなので品質を高い状態にしておくとグリッチがよくでます。
+
+    品質
+        jpeg圧縮する際の品質です。低い値になるほど品質が悪くなります。
+    seed
+        乱数のシードです。一フレームずつ変わる仕様になってないのでフレーム毎にランダムにする場合はランダム移動等を使用してください。
+    実行回数
+        新しく乱数を生成し、新しいバイト位置を書き換えます。
+        乱数によっては同じバイト位置を書き換えることもあり得るので信用しすぎると禿げるかもしれません。
+]]
+--track0:品質,0,100,95,1
+--track1:seed,0,10000,255,1
+--track2:実行回数,1,63,5,1
+local src,w,h=obj.getpixeldata()
+require("JpgGlitch").DQTGlitch(src,w,h,obj.track1+obj.layer,obj.track0,obj.track2)
+obj.putpixeldata(src)
+
+@DHTGlitch
+--[[
+    DHTGlitch
+    ハフマン法テーブル定義セグメント(DHT)のバイナリデータを乱数に書き換えることでグリッチを得ます。
+    乱数にかかわらず原色のノイズが乗るようなグリッチが得られます。
+    低い品質だと値が適当になるセグメントなので品質を高い状態にしておくとグリッチがよくでます。
+
+    品質
+        jpeg圧縮する際の品質です。低い値になるほど品質が悪くなります。
+    seed
+        乱数のシードです。一フレームずつ変わる仕様になってないのでフレーム毎にランダムにする場合はランダム移動等を使用してください。
+    実行回数
+        新しく乱数を生成し、新しいバイト位置を書き換えます。
+        乱数によっては同じバイト位置を書き換えることもあり得るので信用しすぎると禿げるかもしれません。
+]]
+--track0:品質,0,100,95,1
+--track1:seed,0,10000,255,1
+--track2:実行回数,1,160,5,1
+local src,w,h=obj.getpixeldata()
+require("JpgGlitch").DHTGlitch(src,w,h,obj.track1+obj.layer,obj.track0,obj.track2)
+obj.putpixeldata(src)
+
+@ImageGlitch
+--[[
+    いまげｇぃｔｃｈ
+    イメージ実データ部のバイナリを乱数に書き換えます。
+    横にスライスするようなグリッチが得られます。
+    品質はあんまり関係ありませんが品質が高いとグリッチに原色が入らなかったりします。
+
+    品質
+        jpeg圧縮する際の品質です。低い値になるほど品質が悪くなります。
+    seed
+        乱数のシードです。一フレームずつ変わる仕様になってないのでフレーム毎にランダムにする場合はランダム移動等を使用してください。
+    実行回数
+        新しく乱数を生成し、新しいバイト位置を書き換えます。
+        乱数によっては同じバイト位置を書き換えることもあり得るので信用しすぎると禿げるかもしれません。
+]]
+--track0:品質,0,100,75,1
+--track1:seed,0,10000,255,1
+--track2:実行回数,1,100000,5,1
+local src,w,h=obj.getpixeldata()
+require("JpgGlitch").ImageGlitch(src,w,h,obj.track1+obj.layer,obj.track0,obj.track2)
+obj.putpixeldata(src)
